@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>May Myat Noe Phyu | Full-Stack Developer</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #ffffff;
+            color: #111111;
+            line-height: 1.75;
+            font-weight: 300;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        body.dark {
+            background: #0a0a0a;
+            color: #f5f5f5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #4da6ff;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 10px;
+            height: 10px;
+            background: #111;
+            border-radius: 50%;
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        body.dark .cursor {
+            background: #ffffff;
+        }
+
+        .cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #111;
+            border-radius: 50%;
+            position: fixed;
+            z-index: 9998;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+        }
+
+        body.dark .cursor-ring {
+            border-color: #ffffff;
+            opacity: 0.7;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 28px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #eee;
+            z-index: 1000;
+            transition: all 0.4s;
+        }
+
+        body.dark nav {
+            background: rgba(10, 10, 10, 0.98);
+            border-bottom: 1px solid #222;
+        }
+
+        /* Layout Structure */
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center {
+            display: none;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #555;
+        }
+
+        body.dark .nav-menu a {
+            color: #ddd;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            width: 50px;
+            height: 26px;
+            background: #e0e0e0;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        body.dark .theme-toggle {
+            background: #333;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark .theme-toggle::after {
+            transform: translateX(24px);
+            background: #0a0a0a;
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: #111;
+            transition: all 0.3s;
+        }
+
+        body.dark .hamburger span {
+            background: #fff;
+        }
+
+        #hero {
+            min-height: 100vh;
+            padding: 180px 60px 120px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        body.dark #hero {
+            border-bottom: 1px solid #222;
+        }
+
+        #hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(50px, 8vw, 100px);
+            line-height: 0.95;
+            font-weight: 900;
+            margin-bottom: 24px;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-photo {
+            flex: 0 0 280px;
+            text-align: center;
+        }
+
+        .hero-photo img {
+            width: 280px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-photo img:hover {
+            transform: scale(1.04);
+        }
+
+        section {
+            padding: 100px 60px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        body.dark section {
+            border-bottom: 1px solid #222;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 60px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark .section-header {
+            border-bottom: 1px solid #222;
+        }
+
+        .section-num {
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #999;
+        }
+
+        body.dark .section-num {
+            color: #888;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .exp-row,
+        .project-row {
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark .exp-row,
+        body.dark .project-row {
+            border-bottom: 1px solid #222;
+        }
+
+        .exp-period {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        body.dark .exp-period {
+            color: #bbbbbb;
+        }
+
+        .exp-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .exp-company {
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        body.dark .exp-company {
+            color: #cccccc;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+        }
+
+        .skill-category h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        body.dark .skill-category h3 {
+            color: #f5f5f5;
+        }
+
+        .skill-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15.5px;
+        }
+
+        body.dark .skill-item {
+            border-bottom: 1px solid #222;
+        }
+
+        .skill-icons i {
+            font-size: 28px;
+            color: #222;
+        }
+
+        body.dark .skill-icons i {
+            color: #f5f5f5;
+        }
+
+        #contact {
+            background: #f8f8f8;
+            text-align: center;
+            padding: 140px 60px;
+        }
+
+        body.dark #contact {
+            background: #111;
+        }
+
+        .contact-big {
+            font-family: 'Playfair Display', serif;
+            font-size: 68px;
+            line-height: 1.05;
+            font-weight: 900;
+            margin-bottom: 40px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 17px;
+        }
+
+        footer {
+            padding: 30px 60px;
+            background: #111;
+            color: #aaa;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        body.dark footer {
+            background: #000;
+            color: #999;
+        }
+
+        /* Contrast Improvements */
+        body.dark p,
+        body.dark li {
+            color: #e0e0e0 !important;
+        }
+
+        body.dark div,
+        body.dark span {
+            color: inherit;
+        }
+
+        body.dark h3 {
+            color: #f0f0f0 !important;
+        }
+
+        body.dark strong {
+            color: #ffffff;
+        }
+
+        @media (max-width: 900px) {
+
+            nav,
+            section {
+                padding: 20px 28px;
+            }
+
+            .cursor,
+            .cursor-ring {
+                display: none;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-photo {
+                margin: 40px auto 0;
+            }
+
+            .nav-left {
+                display: none;
+            }
+
+            .nav-center {
+                display: block;
+                flex: 1;
+                text-align: center;
+            }
+
+            .mobile-logo {
+                font-size: 17px;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: start;
+                padding-top: 60px;
+                gap: 40px;
+                transition: left 0.4s ease;
+                z-index: 999;
+            }
+
+            body.dark .nav-menu {
+                background: rgba(10, 10, 10, 0.98);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu a {
+                font-size: 18px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-right {
+                gap: 16px;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Cursor Elements -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <a href="#" class="nav-logo">May Myat Noe Phyu</a>
+        </div>
+
+        <div class="nav-center">
+            <a href="#" class="nav-logo mobile-logo">May Myat Noe Phyu</a>
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#about">About</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <div class="theme-toggle" id="themeToggle" title="Toggle Theme"></div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <p style="font-size:13px; letter-spacing:2px; color:#888; margin-bottom:16px;">
+                    AVAILABLE FOR INTERNSHIP / PART-TIME / FULL-TIME • ANYWHERE
+                </p>
+                <h1>May Myat Noe Phyu</h1>
+                <p style="max-width:680px; font-size:18px; color:#444; margin-top:32px;">
+                    Passionate Full-Stack Developer, Cross-Platform Developer, and Computer Science student dedicated to building scalable, user-focused applications with clean and maintainable code.
+                </p>
+            </div>
+
+            <div class="hero-photo">
+                <img src="./images/me.jpg" alt="May Myat Noe Phyu - Full-Stack Developer" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <span class="section-num">01</span>
+            <h2>About Me</h2>
+        </div>
+        <p style="max-width:740px; font-size:17.5px;">
+            I'm a Computer Science student at Myanmar Institute of Information Technology (GPA 3.20/4.00), from Mandalay, Myanmar. Since 2024, I have been actively conceptualizing, designing, and constructing real-world applications.
+        </p>
+        <p style="max-width:740px; font-size:17.5px; margin-top:24px;">
+            I specialize in frontend development, backend development, and database management. I thoroughly enjoy taking structural ownership of software projects — from architectural planning and active development to final production delivery. I bring a calm, focused, and solution-oriented engineering mindset to every challenge. Currently, I am expanding my technical landscape into Data Analysis, Artificial Intelligence, and Machine Learning systems.
+        </p>
+
+        <!-- Personal Information Sub-layout -->
+        <div style="margin-top: 50px; max-width: 740px;">
+            <h3 style="font-size: 16px; margin-bottom: 18px;">Personal Information</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 50px; font-size: 15.5px; line-height: 1.7;">
+                <div><strong>Nationality:</strong> Myanmar</div>
+                <div><strong>Birthday:</strong> 22 April 2004</div>
+                <div><strong>Hometown:</strong> Yangon, Myanmar</div>
+                <div><strong>Current Residence:</strong> Yangon, Myanmar</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="section-header">
+            <span class="section-num">02</span>
+            <h2>Education</h2>
+        </div>
+
+        <div class="exp-row">
+            <div class="exp-period">2022 — Present</div>
+            <div class="exp-title">Bachelor of Engineering (Honours) in Computer Science and Engineering</div>
+            <div class="exp-company">Myanmar Institute of Information Technology (MIIT), Mandalay</div>
+            <p style="margin-top: 12px;">Current Cumulative GPA: 3.2 / 4.00</p>
+        </div>
+
+        <div class="exp-row">
+            <div class="exp-period">2024</div>
+            <div class="exp-title">Business Management & Administration Diploma</div>
+            <div class="exp-company">ICM (England)</div>
+        </div>
+
+        <div class="exp-row">
+            <div class="exp-period">2024</div>
+            <div class="exp-title">Diploma in English</div>
+            <div class="exp-company">Mandalay University of Foreign Languages (MUFL)</div>
+        </div>
+
+        <div class="exp-row" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            <div class="exp-period">2009 — 2019</div>
+            <div class="exp-title">Matriculation Degree</div>
+            <div class="exp-company">Basic Education High School No. (2), Mingaladon (Aung San Thuriya Hla Thaung High School)</div>
+            <p style="margin-top: 12px;">Graduated with Five Distinctions</p>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-header">
+            <span class="section-num">03</span>
+            <h2>Work Experience</h2>
+        </div>
+
+        <div class="exp-row" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            <div class="exp-period">2024 — Present</div>
+            <div class="exp-title">Solutions Intern</div>
+            <div class="exp-company">Partnership Associates</div>
+            <p>Collaborating with cross-functional engineering branches to design functional architecture, streamline data flow logic, and assist in implementing custom enterprise configurations while refining software solutions tailored to user-focused pipelines.</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <span class="section-num">04</span>
+            <h2>Recent Projects</h2>
+        </div>
+
+        <div class="project-row">
+            <div style="font-size:26px; font-weight:700; margin-bottom:12px;">01. E-Healthcare Information System</div>
+            <p><strong>Full-Stack Developer</strong> &bull; <span style="color:#28a745; font-size:14px; font-weight:500;">Completed</span></p>
+            <p style="margin: 18px 0;">
+                Designed and engineered a robust web-based application for structured healthcare data management, focusing on security and smooth data delivery workflows.
+            </p>
+            <ul style="margin: 20px 0; padding-left: 20px; line-height:1.6;">
+                <li>Implemented secure encrypted user authentication protocols across patient and provider roles.</li>
+                <li>Created automated patient appointment scheduling and historical medical record tracking interfaces.</li>
+                <li>Structured system persistence layers for highly optimized clinical healthcare data lookups.</li>
+            </ul>
+            <p style="margin-top: 20px; font-size:15px;">
+                <strong>Tech Stack:</strong> Java Servlet, MySQL, HTML5, CSS3, JavaScript
+            </p>
+        </div>
+
+        <div class="project-row">
+            <div style="font-size:26px; font-weight:700; margin-bottom:12px;">02. Mandalay Pollution Management System</div>
+            <p><strong>Full-Stack Developer</strong> &bull; <span style="color:#28a745; font-size:14px; font-weight:500;">Completed</span></p>
+            <p style="margin: 18px 0;">
+                Developed an environmental data collection and monitoring framework tailored to process, map, and render pollution metrics for public insights in Mandalay.
+            </p>
+            <ul style="margin: 20px 0; padding-left: 20px; line-height:1.6;">
+                <li>Built scalable ingestion REST APIs to accept real-time environmental data parameters.</li>
+                <li>Crafted rich analytics dashboards displaying environmental air and environmental metrics visually.</li>
+                <li>Optimized unstructured geospatial document storage engines for rapid response aggregates.</li>
+            </ul>
+            <p style="margin-top: 20px; font-size:15px;">
+                <strong>Tech Stack:</strong> Node.js, MongoDB, HTML5, CSS3, JavaScript
+            </p>
+        </div>
+
+        <div class="project-row" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            <div style="font-size:26px; font-weight:700; margin-bottom:12px;">03. Mentor Career for University Students</div>
+            <p><strong>Full-Stack Developer</strong> &bull; <span style="color:#ffc107; font-size:14px; font-weight:500;">In Progress</span></p>
+            <p style="margin: 18px 0;">
+                Architecting an AI-powered adaptive career counseling platform engineered to map candidate skill indicators directly to practical business landscape demands.
+            </p>
+            <ul style="margin: 20px 0; padding-left: 20px; line-height:1.6;">
+                <li>Developing predictive recommender systems linking profile matrices to structural career paths.</li>
+                <li>Building customized interactive roadmap timelines that update based on academic and technical milestones.</li>
+                <li>Integrating automated intelligent resume parsing engines to evaluate skill density distributions.</li>
+            </ul>
+            <p style="margin-top: 20px; font-size:15px;">
+                <strong>Tech Stack:</strong> React, Node.js, MongoDB, JavaScript
+            </p>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-header">
+            <span class="section-num">05</span>
+            <h2>Skills</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Programming Languages</h3>
+                <div class="skill-item">C <span class="skill-icons"><i class="devicon-c-plain"></i></span></div>
+                <div class="skill-item">C++ <span class="skill-icons"><i class="devicon-cplusplus-plain"></i></span></div>
+                <div class="skill-item">Java <span class="skill-icons"><i class="devicon-java-plain"></i></span></div>
+                <div class="skill-item">Python <span class="skill-icons"><i class="devicon-python-plain"></i></span></div>
+                <div class="skill-item">JavaScript <span class="skill-icons"><i class="devicon-javascript-plain"></i></span></div>
+                <div class="skill-item">C# <span class="skill-icons"><i class="devicon-csharp-plain"></i></span></div>
+            </div>
+
+            <div class="skill-category">
+                <h3>Web Architecture & DB</h3>
+                <div class="skill-item">React / jQuery <span class="skill-icons"><i class="devicon-react-original"></i></span></div>
+                <div class="skill-item">Node.js / Servlets <span class="skill-icons"><i class="devicon-nodejs-plain"></i></span></div>
+                <div class="skill-item">ASP.NET Web API <span class="skill-icons"><i class="devicon-dot-net-plain"></i></span></div>
+                <div class="skill-item">PHP <span class="skill-icons"><i class="devicon-php-plain"></i></span></div>
+                <div class="skill-item">MySQL / SQL <span class="skill-icons"><i class="devicon-mysql-plain"></i></span></div>
+                <div class="skill-item">MongoDB <span class="skill-icons"><i class="devicon-mongodb-plain"></i></span></div>
+            </div>
+
+            <div class="skill-category">
+                <h3>Tools & Strengths</h3>
+                <div class="skill-item">Git & GitHub <span class="skill-icons"><i class="devicon-github-original"></i></span></div>
+                <div class="skill-item">Postman / Thunder Client <span class="skill-icons"><i class="devicon-postman-plain"></i></span></div>
+                <div class="skill-item">DevExpress / Figma <span class="skill-icons"><i class="devicon-figma-plain"></i></span></div>
+                <div class="skill-item">Project & Business Management</div>
+                <div class="skill-item">Solution-Oriented Problem Solving</div>
+                <div class="skill-item">Adaptable & Rapid Core Learning</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-big">
+            Let's build<br>something great.
+        </div>
+        <div class="contact-links">
+            <a href="mailto:mmnp2242004@gmail.com">mmnp2242004@gmail.com</a><br>
+            <a href="https://t.me/Elena_Xie" target="_blank">Telegram: @Elena_Xie</a><br>
+            <a href="#" target="_blank">LinkedIn</a><br>
+            <a href="#" target="_blank">GitHub</a><br>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div>&copy; 2026 May Myat Noe Phyu</div>
+        <div>Yangon , Myanmar</div>
+    </footer>
+
+    <script>
+        // Custom Fluid Cursor Logic
+        const cursor = document.getElementById('cursor');
+        const cursorRing = document.getElementById('cursorRing');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Smooth lagging effect for external ring
+            cursorRing.animate({
+                left: e.clientX + 'px',
+                top: e.clientY + 'px'
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Theme Toggle Mechanics
+        const toggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            localStorage.setItem('portfolio-theme', body.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        if (localStorage.getItem('portfolio-theme') === 'dark') {
+            body.classList.add('dark');
+        }
+
+        // Responsive Hamburger Display
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.remove('active');
+                navMenu.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
